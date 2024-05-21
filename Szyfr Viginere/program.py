@@ -5,7 +5,7 @@ def wczytaj_plik(nazwa_pliku):
     file_path = os.path.join(script_dir, nazwa_pliku)
     
     with open(file_path, 'r') as plik:
-        return plik.read().replace(" ", "")
+        return plik.read()
 
 def zapisz_plik(nazwa_pliku, zawartosc):
     with open(nazwa_pliku, 'w', encoding='utf-8') as plik:
@@ -13,12 +13,15 @@ def zapisz_plik(nazwa_pliku, zawartosc):
 
 def generuj_klucz(tekst, klucz):
     klucz = list(klucz)
-    if len(tekst) == len(klucz):
-        return klucz
-    else:
-        for i in range(len(tekst) - len(klucz)):
-            klucz.append(klucz[i % len(klucz)])
-    return "".join(klucz)
+    klucz_dopasowany = []
+    klucz_index = 0
+    for znak in tekst:
+        if znak.isalpha():
+            klucz_dopasowany.append(klucz[klucz_index % len(klucz)])
+            klucz_index += 1
+        else:
+            klucz_dopasowany.append(znak)
+    return "".join(klucz_dopasowany)
 
 def szyfruj(tekst, klucz):
     szyfrogram = []
